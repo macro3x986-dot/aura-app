@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AURA — MAVIXOR Python Protector</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header class="hero">
+  <div class="brand">
+    <div class="brand-mark">◈</div>
+    <h1>AURA</h1>
+  </div>
+  <p class="tagline">Powerful by <span>MAVIXOR</span></p>
+  <p class="sub">Python Code Obfuscator & Signature Protector</p>
+</header>
+
+<main class="container">
+
+  <section class="mode-grid">
+    <div class="mode-card" data-mode="mode01">
+      <div class="mode-icon">⛨</div>
+      <h2>Mode 01</h2>
+      <h3>MAVIXOR Signature Protector</h3>
+      <ul>
+        <li>SHA-256 hash generation</li>
+        <li>Ed25519 digital signature</li>
+        <li>Tamper detection</li>
+        <li>Verifiable with <code>verify_aura.py</code></li>
+      </ul>
+    </div>
+    <div class="mode-card" data-mode="mode02">
+      <div class="mode-icon">◈</div>
+      <h2>Mode 02</h2>
+      <h3>Advanced Obfuscator</h3>
+      <ul>
+        <li>Identifier mangling</li>
+        <li>XOR string encoding</li>
+        <li>Base64 + Zlib + reverse wrap</li>
+        <li>Compact, unreadable output</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="editor-panel">
+    <div class="panel-header">
+      <label class="file-upload">
+        <input type="file" id="fileInput" accept=".py" hidden />
+        <span>⬆ Upload .py File</span>
+      </label>
+      <span class="status" id="statusText">Idle</span>
+    </div>
+
+    <textarea id="codeInput" placeholder="Paste your Python source code here..."></textarea>
+
+    <div class="actions">
+      <button id="protectBtn" class="btn-primary" data-mode="">
+        Select a Mode First
+      </button>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </section>
+
+  <section class="output-panel hidden" id="outputPanel">
+    <div class="panel-header">
+      <h2>Protected Output</h2>
+      <div class="out-actions">
+        <button class="btn-ghost" id="copyBtn">Copy</button>
+        <button class="btn-primary small" id="downloadBtn">Download</button>
+      </div>
+    </div>
+    <pre id="outputCode"></pre>
+  </section>
+
+  <div class="toast" id="toast"></div>
+</main>
+
+<footer>
+  <p>AURA — POWERED BY MAVIXOR</p>
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
