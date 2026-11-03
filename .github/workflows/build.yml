@@ -41,9 +41,20 @@ jobs:
 
       - name: Build APK
         run: |
-          yes | buildozer -v android debug
+          set -o pipefail
+          yes | buildozer -v android debug 2>&1 | tee build.log
+          
+      - name: Show Error if Failed
+        if: failure()
+        run: |
+          echo "=================================================="
+          echo "🚨 BUILD FAILED. HERE IS THE ERROR 🚨"
+          echo "=================================================="
+          grep -iE "error|exception|failed|Traceback" build.log -A 5 -B 2 || tail -n 100 build.log
+          echo "=================================================="
 
       - name: Upload APK artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: aura-apk
