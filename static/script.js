@@ -28,23 +28,25 @@
     statusText.textContent = txt;
   }
 
-  // Mode cards
+  const BTN_LABELS = {
+    mode01: "Protect with Signature",
+    mode02: "Obfuscate Code (BD-Style)",
+    mode03: "Obfuscate Code (Kramer-Style)",
+  };
+
   document.querySelectorAll(".mode-card").forEach((card) => {
     card.addEventListener("click", () => {
       document.querySelectorAll(".mode-card").forEach((c) => c.classList.remove("active"));
       card.classList.add("active");
       state.mode = card.dataset.mode;
       protectBtn.disabled = false;
-      protectBtn.textContent =
-        state.mode === "mode01" ? "Protect with Signature" : "Obfuscate Code";
+      protectBtn.textContent = BTN_LABELS[state.mode] || "Protect";
       setStatus(`Selected: ${card.querySelector("h3").textContent}`);
     });
   });
 
   protectBtn.disabled = true;
-  protectBtn.addEventListener("click", () => { protectBtn.disabled = true; });
 
-  // File upload
   fileInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -61,7 +63,6 @@
     reader.readAsText(file, "utf-8");
   });
 
-  // Protect
   protectBtn.addEventListener("click", async () => {
     if (!state.mode) return showToast("Select a mode first", "error");
     const code = codeInput.value;
@@ -86,7 +87,7 @@
         showToast(data.error || "Protection failed", "error");
         setStatus("Error");
         protectBtn.disabled = false;
-        protectBtn.textContent = "Try Again";
+        protectBtn.textContent = BTN_LABELS[state.mode] || "Try Again";
         return;
       }
 
@@ -106,11 +107,10 @@
       setStatus("Network error");
       showToast("Server error: " + err.message, "error");
       protectBtn.disabled = false;
-      protectBtn.textContent = "Retry";
+      protectBtn.textContent = BTN_LABELS[state.mode] || "Retry";
     }
   });
 
-  // Copy
   copyBtn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(state.output);
@@ -120,7 +120,6 @@
     }
   });
 
-  // Download
   downloadBtn.addEventListener("click", async () => {
     if (!state.output) return;
     try {

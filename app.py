@@ -7,6 +7,7 @@ import hashlib
 import random
 import string
 import traceback
+import binascii
 
 from flask import Flask, render_template, request, jsonify, send_file
 
@@ -64,7 +65,7 @@ else:
 # ---------------- MODE 01 — SIGNATURE PROTECTOR ----------------
 def protect_mode01(code: str) -> str:
     if not CRYPTO_OK:
-        raise ValueError("Mode 01 requires the 'cryptography' library, which is not installed in this Android build.")
+        raise ValueError("Mode 01 requires the 'cryptography' library. (Currently unavailable on this device).")
     
     code_bytes = code.encode("utf-8")
     digest = hashlib.sha256(code_bytes).hexdigest()
@@ -678,7 +679,6 @@ def _kramer_core(content: str, key: int) -> str:
     e1 = _kyrie_ekyrie(content)
     e = _kyrie_encrypt(e1, key)
     lines_sep = '/'
-    import binascii
     hex_lines = lines_sep.join(
         binascii.hexlify(x.encode()).decode() for x in e
     )
