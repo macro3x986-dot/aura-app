@@ -10,7 +10,7 @@ source.exclude_patterns = .github/*,__pycache__/*,*.pyc,keys/*.pem
 
 version = 1.0.0
 
-requirements = python3,kivy,flask,werkzeug,pyjnius,android,cryptography,pyopenssl,openssl
+requirements = python3,kivy,flask,werkzeug,pyjnius,android
 
 orientation = portrait
 fullscreen = 1

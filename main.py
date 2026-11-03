@@ -3,14 +3,10 @@ import sys
 import threading
 import time
 
-# --- চdir করি ফাইল যেখানে, সেখানে ---
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 os.chdir(APP_DIR)
 
-# --- Flask app import ---
 from app import app as flask_app
-
-# --- Werkzeug server (Kivy-friendly) ---
 from werkzeug.serving import make_server
 
 _server = None
@@ -31,7 +27,6 @@ def wait_for_flask(timeout=20):
             time.sleep(0.3)
     return False
 
-# --- Kivy ---
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.utils import platform
@@ -59,7 +54,6 @@ if platform == 'android':
         settings.setDatabaseEnabled(True)
         settings.setLoadWithOverviewMode(True)
         settings.setUseWideViewPort(True)
-        settings.setSupportZoom(False)
         _webview.setBackgroundColor(Color.parseColor('#05010a'))
         _webview.setWebViewClient(WebViewClient())
         _webview.loadUrl('http://127.0.0.1:5000/')
@@ -68,13 +62,11 @@ if platform == 'android':
     class AURA(App):
         def build(self):
             threading.Thread(target=start_flask, daemon=True).start()
-
             def on_ready(dt):
                 if wait_for_flask(10):
                     build_webview()
                 else:
                     Clock.schedule_once(on_ready, 2)
-
             Clock.schedule_once(on_ready, 1)
             return Widget()
 
